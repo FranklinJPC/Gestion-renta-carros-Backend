@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import verificarAutenticacion from '../middlewares/autentication.js';
 import{
     listarClientes,
     detalleCliente,
@@ -8,10 +9,10 @@ import{
 } from '../controllers/cliente.controllers.js'
 const router = Router()
 
-router.get("/clientes", listarClientes);
-router.get("/cliente/:id", detalleCliente);
-router.post("/cliente/registro", crearCliente);
-router.put("/cliente/actualizar/:id", actualizarCliente);
-router.delete("/cliente/eliminar/:id", eliminarCliente);
+router.get("/clientes", verificarAutenticacion, listarClientes);
+router.get("/cliente/:id", verificarAutenticacion, detalleCliente);
+router.post("/cliente/registro", verificarAutenticacion, crearCliente);
+router.put("/cliente/actualizar/:id", verificarAutenticacion, actualizarCliente);
+router.delete("/cliente/eliminar/:id", verificarAutenticacion, eliminarCliente);
 
 export default router

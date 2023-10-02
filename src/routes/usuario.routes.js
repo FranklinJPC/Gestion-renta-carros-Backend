@@ -1,4 +1,5 @@
 import { Router } from "express";
+import verificarAutenticacion from "../middlewares/autentication.js";
 import{
     registro,
     login,
@@ -19,8 +20,8 @@ router.post('/recuperar-password',recuperarPassword)
 router.get('/recuperar-password/:token',comprobarTokenPassword)
 router.post('/nuevo-password/:token',nuevoPassword)
 
-router.get('/perfil',perfil)
-router.put('/usuario/actualizarpassword',actualizarPassword)
-router.get('/usuario/:id', detalleUsuario)
+router.get('/perfil', verificarAutenticacion, perfil)
+router.put('/usuario/actualizarpassword', verificarAutenticacion, actualizarPassword)
+router.get('/usuario/:id', verificarAutenticacion, detalleUsuario)
 
 export default router
