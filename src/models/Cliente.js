@@ -28,13 +28,13 @@ const clienteSchema = new Schema({
         type: String,
         require: true,
         trim: true,
-        maxlength: 20
+        maxlength: 40
     },
     direcccion: {
         type: String,
         require: true,
         trim: true,
-        maxlength: 20
+        maxlength: 40
     },
     telefono: {
         type: String,

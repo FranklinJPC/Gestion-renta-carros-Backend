@@ -24,7 +24,6 @@ const usuarioSchema = new Schema({
         type: String,
         require: true,
         trim: true,
-        maxlength: 30
     },
     token: {
         type: String,

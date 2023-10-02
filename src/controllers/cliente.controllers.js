@@ -1,17 +1,49 @@
-const listarClientes = (req, res) =>{
-    res.status(200).json({msg: "Lista Clientes"})
+import mongoose from "mongoose"
+import Cliente from '../models/Cliente.js'
+
+const listarClientes = async(req, res) =>{
+    const clientes = await Cliente.find({}).select("-createdAt -updatedAt -__v")
+    res.status(200).json(clientes)
 }
-const detalleCliente = (req, res) =>{
-    res.status(200).json({msg: "Detalle Cliente"})
+const detalleCliente = async(req, res) =>{
+    try {
+        const {id} = req.params
+        const cliente = await Cliente.findById(id).select("-createdAt -updatedAt -__v")
+        res.status(200).json(cliente)
+    } catch (error) {
+        console.log(error)
+    }
 }
-const crearCliente = (req, res) =>{
-    res.status(200).json({msg: "Crear Cliente"})
+const crearCliente = async(req, res) =>{
+    try {
+        if(Object.values(req.body).includes("")) return res.status(400).json({msg: "Llenar todos los campos"}) 
+        const nuevoCliente = new Cliente(req.body)
+        await nuevoCliente.save()
+        res.status(200).json({msg: "Nuevo cliente agregado"})
+    } catch (error) {
+        console.log(error)
+    }
 }
-const actualizarCliente = (req, res) =>{
-    res.status(200).json({msg: "Actualizar Cliente"})
+const actualizarCliente = async(req, res) =>{
+    try {
+        const {id} = req.params
+        if(Object.values(req.body).includes("")) return res.status(400).json({msg: "Llenar todos los campos"})
+        if(!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({msg: "Cliente no encontrado"})
+        await Cliente.findByIdAndUpdate(req.params.id, req.body)
+        res.status(200).json({msg: "Actualizacion exitosa"})
+    } catch (error) {
+        console.log(error)
+    }
 }
-const eliminarCliente = (req, res) =>{
-    res.status(200).json({msg: "Eliminar Cliente"})
+const eliminarCliente = async(req, res) =>{
+    try {
+        const {id} = req.params
+        if(!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({msg: "Cliente no encontrado"})
+        await Cliente.findByIdAndRemove(req.params.id, req.body)
+        res.status(200).json({msg: "Cliente Eliminado"})
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export{

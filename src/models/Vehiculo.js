@@ -13,7 +13,7 @@ const vehiculoSchema = new Schema({
         maxlength: 20
     },
     anio_fabricacion: {
-        type: Date,
+        type: String,
         require: true,
         trim: true,
     },
